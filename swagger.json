@@ -1,0 +1,1110 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My Express API",
+    "version": "1.0.0",
+    "description": "An Express.js API with JWT cookie authentication"
+  },
+  "host": "localhost:8080",
+  "basePath": "",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "cookieAuth": {
+      "type": "apiKey",
+      "in": "cookie",
+      "name": "jwt"
+    },
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "jwt"
+    }
+  },
+  "paths": {
+    "/auth": {
+      "post": {
+        "summary": "Logs in a user and returns access and refresh tokens",
+        "description": "Authenticates a user with a username and password, and returns an access token and a refresh token.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "pwd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "accessToken": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Username and password are required"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Logs out the user by clearing the JWT refresh token",
+        "description": "This endpoint handles the logout process for an authenticated user. It clears the JWT refresh token from the server-side database and the client-side cookie, effectively logging the user out of the application.",
+        "responses": {
+          "204": {
+            "description": "Successful logout. No content to return."
+          },
+          "500": {
+            "description": "Server error occurred during logout process."
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["Auth"]
+      }
+    },
+    "/refresh": {
+      "get": {
+        "summary": "Refreshes the access token",
+        "description": "Refreshes the access token using the refresh token stored in the cookie.",
+        "responses": {
+          "200": {
+            "description": "Successful token refresh",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "roles": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "accessToken": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["Auth"]
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Registers a new user",
+        "description": "Creates a new user account with a username and password.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "firstname": {
+                  "type": "string"
+                },
+                "lastname": {
+                  "type": "string"
+                },
+                "pwd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "400": {
+            "description": "Username and password are required"
+          },
+          "409": {
+            "description": "Username already exists"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Returns a list of all registered users.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "204": {
+            "description": "No users found"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["Users"]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get a user by ID",
+        "description": "Returns a user object based on the provided user ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "204": {
+            "description": "User not found"
+          },
+          "400": {
+            "description": "User ID is required"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["Users"]
+      },
+      "delete": {
+        "summary": "Delete a user",
+        "description": "Deletes a user based on the provided user ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "204": {
+            "description": "User not found"
+          },
+          "400": {
+            "description": "User ID is required"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "tags": ["Users"]
+      }
+    },
+    "/instructors": {
+      "get": {
+        "summary": "Get all instructors",
+        "description": "Returns a list of all instructors. Requires authorization.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Instructor"
+              }
+            }
+          },
+          "204": {
+            "description": "No instructors found"
+          }
+        },
+        "security": [],
+        "tags": ["Instructors"]
+      },
+      "post": {
+        "summary": "Create a new instructor (Admin or Editor role required)",
+        "description": "Creates a new instructor. Requires Admin or Editor role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "required": true
+                },
+                "lastname": {
+                  "type": "string",
+                  "required": true
+                },
+                "title": {
+                  "type": "string",
+                  "required": false
+                },
+                "description": {
+                  "type": "string",
+                  "required": false
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Instructor created successfully",
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          },
+          "400": {
+            "description": "First and last names are required"
+          }
+        },
+        "security": [],
+        "tags": ["Instructors"]
+      },
+      "put": {
+        "summary": "Update an instructor (Admin or Editor role required)",
+        "description": "Updates an existing instructor. Requires Admin or Editor role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "firstname": {
+                  "type": "string"
+                },
+                "lastname": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "videos": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          },
+          "204": {
+            "description": "Instructor not found"
+          },
+          "400": {
+            "description": "Instructor ID is required"
+          }
+        },
+        "security": [],
+        "tags": ["Instructors"]
+      },
+      "delete": {
+        "summary": "Delete an instructor (Admin role required)",
+        "description": "Deletes an instructor based on the provided instructor ID. Requires Admin role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response (empty body)"
+          },
+          "204": {
+            "description": "Instructor not found"
+          },
+          "400": {
+            "description": "Instructor ID is required"
+          }
+        },
+        "security": [],
+        "tags": ["Instructors"]
+      }
+    },
+    "/instructors/{id}": {
+      "get": {
+        "summary": "Get an instructor by ID",
+        "description": "Retrieves a specific instructor based on their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Instructor"
+            }
+          },
+          "204": {
+            "description": "Instructor not found"
+          }
+        },
+        "security": [],
+        "tags": ["Instructors"]
+      }
+    },
+    "/blog": {
+      "get": {
+        "summary": "Get all blogs",
+        "description": "Returns a list of all blogs. Requires authorization.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Blog"
+              }
+            }
+          },
+          "204": {
+            "description": "No blogs found"
+          }
+        },
+        "security": [],
+        "tags": ["Blogs"]
+      },
+      "post": {
+        "summary": "Create a new blog (Admin or Editor role required)",
+        "description": "Creates a new blog. Requires Admin or Editor role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "required": true
+                },
+                "description": {
+                  "type": "string",
+                  "required": true
+                },
+                "imageUrl": {
+                  "type": "string",
+                  "required": true
+                },
+                "categoryId": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Blog created successfully",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          },
+          "400": {
+            "description": "Title, description, imageUrl, and categoryId are required"
+          }
+        },
+        "security": [],
+        "tags": ["Blogs"]
+      },
+      "put": {
+        "summary": "Update a blog (Admin or Editor role required)",
+        "description": "Updates an existing blog. Requires Admin or Editor role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "imageUrl": {
+                  "type": "string"
+                },
+                "categoryId": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          },
+          "204": {
+            "description": "Blog not found"
+          },
+          "400": {
+            "description": "Blog ID is required"
+          }
+        },
+        "security": [],
+        "tags": ["Blogs"]
+      },
+      "delete": {
+        "summary": "Delete a blog (Admin role required)",
+        "description": "Deletes a blog based on the provided blog ID. Requires Admin role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response (empty body)"
+          },
+          "204": {
+            "description": "Blog not found"
+          },
+          "400": {
+            "description": "Blog ID is required"
+          }
+        },
+        "security": [],
+        "tags": ["Blogs"]
+      }
+    },
+    "/blog/{id}": {
+      "get": {
+        "summary": "Get a blog by ID",
+        "description": "Retrieves a specific blog based on their ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Blog"
+            }
+          },
+          "204": {
+            "description": "Blog not found"
+          }
+        },
+        "security": [],
+        "tags": ["Blogs"]
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Get all categories",
+        "description": "Returns a list of all categories.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          },
+          "204": {
+            "description": "No categories found"
+          }
+        },
+        "security": [],
+        "tags": ["Categories"]
+      },
+      "post": {
+        "summary": "Create a new category (Admin role required)",
+        "description": "Creates a new category. Requires Admin role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Category created successfully",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "description": "Category name is required"
+          }
+        },
+        "security": [],
+        "tags": ["Categories"]
+      }
+    },
+    "/news": {
+      "get": {
+        "summary": "Get all news",
+        "description": "Returns a list of all news articles. Requires authorization.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NewsItem"
+              }
+            }
+          },
+          "204": {
+            "description": "No news articles found"
+          }
+        },
+        "security": [],
+        "tags": ["News"]
+      },
+      "post": {
+        "summary": "Create a new news article (Admin or Editor role required)",
+        "description": "Creates a new news article. Requires Admin or Editor role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "required": true
+                },
+                "description": {
+                  "type": "string",
+                  "required": true
+                },
+                "image": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "News article created successfully",
+            "schema": {
+              "$ref": "#/definitions/NewsItem"
+            }
+          },
+          "400": {
+            "description": "Title, description, and image are required"
+          }
+        },
+        "security": [],
+        "tags": ["News"]
+      },
+      "put": {
+        "summary": "Update a news article (Admin or Editor role required)",
+        "description": "Updates an existing news article. Requires Admin or Editor role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/NewsItem"
+            }
+          },
+          "404": {
+            "description": "News article not found"
+          },
+          "400": {
+            "description": "News article ID is required"
+          }
+        },
+        "security": [],
+        "tags": ["News"]
+      },
+      "delete": {
+        "summary": "Delete a news article (Admin role required)",
+        "description": "Deletes a news article based on the provided ID. Requires Admin role.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response (empty body)"
+          },
+          "404": {
+            "description": "News article not found"
+          },
+          "400": {
+            "description": "News article ID is required"
+          }
+        },
+        "security": [],
+        "tags": ["News"]
+      }
+    },
+    "/news/{id}": {
+      "get": {
+        "summary": "Get a news article by ID",
+        "description": "Retrieves a specific news article based on its ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/NewsItem"
+            }
+          },
+          "404": {
+            "description": "News article not found"
+          }
+        },
+        "security": [],
+        "tags": ["News"]
+      }
+    },
+    "/upload": {
+      "post": {
+        "summary": "Upload a file",
+        "description": "Uploads a file to the server.",
+        "consumes": ["multipart/form-data"],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "The file to upload.",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "File uploaded successfully"
+                },
+                "fileInfo": {
+                  "$ref": "#/definitions/FileInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "No file uploaded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/email": {
+      "post": {
+        "summary": "Sends an email",
+        "description": "Sends an email with the provided details using the configured SMTP server.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["to", "subject"],
+                "properties": {
+                  "to": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Recipient's email address"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "Subject of the email"
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Plain text content of the email"
+                  },
+                  "html": {
+                    "type": "string",
+                    "description": "HTML content of the email"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email sent successfully"
+                    },
+                    "messageId": {
+                      "type": "string",
+                      "description": "Unique identifier for the sent email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing required fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Missing required fields"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Error sending email"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Email"]
+      }
+    },
+    "definitions": {
+      "FileInfo": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "description": "The name of the uploaded file on the server."
+          },
+          "filePath": {
+            "type": "string",
+            "description": "The file path of the uploaded file on the server."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "object"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    },
+    "Instructor": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "videos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Blog": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "id": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category ID"
+        }
+      },
+      "required": ["id", "title", "description", "imageUrl", "category"]
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "blogs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Blog ID"
+          }
+        }
+      },
+      "required": ["name"]
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication and authorization related endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "User management endpoints"
+    },
+    {
+      "name": "Instructors",
+      "description": "Instructor management endpoints"
+    }
+  ]
+}

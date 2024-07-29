@@ -1,0 +1,29 @@
+20240511	22:24:23	472fa2c1-b0ff-4561-8c8d-cc32dfa6af5d	Error: Not allowed by CORS
+20240512	12:34:47	62845d9d-b308-45a6-adc4-6ebb43abc41f	TypeError: next is not a function
+20240512	12:34:47	e81de62c-cb07-4108-9227-9096a531a67e	TypeError: next is not a function
+20240512	12:36:40	8decea63-015b-490e-9f15-0a9d984a1f53	TypeError: next is not a function
+20240512	12:36:40	c48555f3-7a0a-4c43-8020-949a929261e0	TypeError: next is not a function
+20240512	12:36:41	c75e6eed-9eff-4561-8f64-56451f0ef0a9	TypeError: next is not a function
+20240512	12:36:41	350c07d2-8e5c-476a-911a-4d1304d509f4	TypeError: next is not a function
+20240512	12:38:48	9ff0dcbd-daba-4d09-82a1-cf1e050cfa1d	Error: Not allowed by CORS
+20240512	17:56:19	2217f9c2-4cc7-4f9c-9dc4-3a17353e983d	Error: Not allowed by CORS
+20240516	22:04:26	b018c3cc-f886-45a3-aa21-ef0f74e7ef1a	TypeError: Cannot read properties of undefined (reading 'split')
+20240520	19:04:01	05296db3-15b4-4740-963f-71b535ca872d	Error: Not allowed by CORS
+20240525	16:28:34	53ba4a1d-4b91-4cc6-91fe-9812acd6c78c	Error: ENOENT: no such file or directory, open 'C:\Users\BOOK\Documents\Projects\api-yoga\nodejs_web_server\uploads\1716647314376-js.png'
+20240526	20:00:14	23bec43c-cf1b-4c2f-bf3a-0a392d3b1a47	Error: ENOENT: no such file or directory, open 'C:\Users\BOOK\Documents\Projects\api-yoga\nodejs_web_server\uploads\1716746414971-firebasepng.png'
+20240526	20:02:46	d84c6d16-419c-453c-9ea6-11ddf342319f	Error: ENOENT: no such file or directory, open 'C:\Users\BOOK\Documents\Projects\api-yoga\nodejs_web_server\uploads\1716746566892-firebasepng.png'
+20240526	20:06:09	cbbdb400-a41c-401b-a442-4516667e2ec5	Error: ENOENT: no such file or directory, open 'C:\Users\BOOK\Documents\Projects\api-yoga\nodejs_web_server\uploads\1716746769936-firebasepng.png'
+20240529	23:21:50	c667aa44-fb56-40fa-9ebb-0ce023f5bebe	TypeError: Cannot read properties of undefined (reading 'authorization')
+20240529	23:31:41	11eac156-7167-4284-9676-5b576f0d6625	TypeError: Cannot read properties of undefined (reading 'username')
+20240529	23:32:22	7ab0dc2d-962f-46a0-9fb1-088f450b8511	TypeError: Cannot read properties of undefined (reading 'username')
+20240529	23:33:17	0b5c30ad-bc3e-497e-ba2c-8c9d25eebac8	TypeError: Cannot read properties of undefined (reading 'username')
+20240624	22:34:07	87531cb7-487d-478c-bc60-1a7c9a3cb19a	Error: Not allowed by CORS
+20240624	22:34:07	3fe02c15-59e6-464a-ac78-8b851bc88a6f	Error: Not allowed by CORS
+20240624	22:34:07	e3aab0a6-f6fb-4004-8d39-5f9fdb8251d4	Error: Not allowed by CORS
+20240624	22:34:07	f3ba067c-fde3-4014-b823-7e30516f3614	Error: Not allowed by CORS
+20240624	22:34:12	155cf82e-a594-416e-878a-78b308e6d8c6	Error: Not allowed by CORS
+20240624	22:34:12	a8b2911e-c803-426a-8514-44759d644f7b	Error: Not allowed by CORS
+20240624	22:34:13	24577f93-6849-48af-8a48-f91e7937813e	Error: Not allowed by CORS
+20240624	22:34:13	1a806504-9804-47d6-815b-ffa5aefb8ab7	Error: Not allowed by CORS
+20240624	22:34:13	9fc026a0-1e41-4c1c-862f-b0c8a96f5b7f	Error: Not allowed by CORS
+20240624	22:34:13	16f9c437-a35e-4c28-9c63-bb349602ce34	Error: Not allowed by CORS
