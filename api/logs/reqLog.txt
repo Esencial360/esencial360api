@@ -5573,3 +5573,16 @@
 20240725	00:10:20	83206bc0-d5e1-40a9-9928-d02053c727be	GET	undefined	/api-docs
 20240725	00:10:21	3c579274-e401-4dd4-9ec5-76217a036eac	GET	undefined	/api-docs/
 20240725	00:10:24	110d8159-51b3-4366-ad37-6f56ad355a1f	GET	undefined	/api-docs/swagger-ui.css
+20240729	21:08:11	96a7811a-98ff-403f-93be-3a2d1f94f80d	GET	undefined	/
+20240729	21:08:13	ef95fed0-9eb9-4ce8-85d2-9da185edaaed	GET	undefined	/css/style.css
+20240729	21:08:15	01d4b764-6960-4a17-98f9-999e8bdd0bcc	GET	undefined	/favicon.ico
+20240729	21:08:47	1c5eacee-1e2c-4175-9808-da812f4f2985	GET	undefined	/api-docs
+20240729	21:08:49	18f27c1e-1db5-40cd-be82-f1867f932cf5	GET	undefined	/api-docs/
+20240729	21:08:51	ae94d223-7768-4213-8d14-77b5fc441926	GET	undefined	/api-docs/swagger-ui.css
+20240826	21:09:59	643a17f2-6672-49de-a250-80f6188f6314	GET	http://localhost:4200	/instructors
+20240826	21:10:15	36e76e7d-41b6-474d-afd2-b2e6d420310d	GET	undefined	/
+20240826	21:10:17	52fb6e31-ad12-4e60-9e51-b97510b3de5d	GET	undefined	/css/style.css
+20240826	21:10:19	4a5b2def-ae8c-4bc3-a105-7164c745ea14	GET	undefined	/favicon.ico
+20240826	21:10:50	49c54499-37a2-4425-bfb3-5e5ac41558d8	GET	undefined	/api-docs
+20240826	21:10:52	116e20e0-4e36-4aec-8211-7ba026f99219	GET	undefined	/api-docs/
+20240826	21:10:54	5f3d7509-3ba5-46ef-93bf-3eb775963243	GET	undefined	/api-docs/swagger-ui.css

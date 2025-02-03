@@ -23,7 +23,7 @@ const credentials = require("./middleware/credentials");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 const swaggerDocument = require('../swagger.json');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 // Connect to MongoDB
 connectDB();

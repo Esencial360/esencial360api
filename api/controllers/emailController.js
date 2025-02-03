@@ -6,7 +6,7 @@ const Contact = require('../model/Contact');
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
+  port: 587,
   secure: true, 
   auth: {
     user: process.env.SMTP_USER,
@@ -15,6 +15,8 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendEmail = async (req, res) => {
+  console.log("sendEmail");
+  
   const { to, subject, text, html } = req.body;
 
   if (!to || !subject || (!text && !html)) {
@@ -59,6 +61,9 @@ const handleContactForm = async (req, res) => {
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>Message:</strong> ${message}</p>
     `;
+
+    console.log("beforeInfo");
+    
 
     let info = await transporter.sendMail({
       from: `"Your App" <${process.env.SMTP_USER}>`,
